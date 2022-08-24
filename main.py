@@ -1,6 +1,36 @@
 from tkinter import *
+from tkinter import messagebox
+import random
 
 FONT = "Courier"
+
+# Generate a password
+letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+           'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+           'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
+
+
+def generate_password():
+    password_entry.delete(0, END)
+
+    nr_letters = random.randint(8, 10)
+    nr_symbols = random.randint(2, 4)
+    nr_numbers = random.randint(2, 4)
+
+    password_list = [random.choice(letters) for _ in range(nr_letters)]
+    password_list = password_list + [random.choice(symbols) for _ in range(nr_symbols)]
+    password_list = password_list + [random.choice(numbers) for _ in range(nr_numbers)]
+
+    random.shuffle(password_list)
+
+    password = ""
+    for char in password_list:
+        password += char
+    password_entry.insert(index=0, string=password)
+
+    print(f"Your password is: {password}")
 
 
 # Save the data into a data.txt file
@@ -8,15 +38,18 @@ def save_data():
     website = website_entry.get()
     email_or_username = Email_or_username_entry.get()
     password = password_entry.get()
-    if website != "" and email_or_username != "" and password != "":
-        with open("data.txt", "a+") as file:
-            file.write(f"{website} | {email_or_username} | {password}\n")
-            website_entry.delete(0, END)
-            Email_or_username_entry.delete(0, END)
-            password_entry.delete(0, END)
-    else:
-        print("there is something missing!")
 
+    if len(website) == 0 or len(email_or_username) == 0 or len(password) == 0:
+        messagebox.showinfo(title="Opps", message="Please don't leave any fields empty!")
+    else:
+        is_ok = messagebox.askokcancel(title=website,
+                                       message=f"These are the detail entered: \nEmail/Username: {email_or_username}"
+                                               f"\nPassword: {password}\n\nDo you want to save?")
+        if is_ok:
+            with open("data.txt", "a+") as file:
+                file.write(f"{website} | {email_or_username} | {password}\n")
+                website_entry.delete(0, END)
+                password_entry.delete(0, END)
 
 
 windows = Tk()
@@ -56,13 +89,8 @@ password_entry.grid(column=1, row=3)
 Add_button = Button(width=43, text="Add", command=save_data)
 Add_button.grid(column=1, row=4, columnspan=2)
 
-Generate_password_button = Button(text="Generate Password")
+Generate_password_button = Button(text="Generate Password", command=generate_password)
 Generate_password_button.grid(column=2, row=3)
-
-
-
-
-
 
 
 windows.mainloop()
