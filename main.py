@@ -56,15 +56,21 @@ def save_data():
                                        message=f"These are the detail entered: \nEmail/Username: {email_or_username}"
                                                f"\nPassword: {password}\n\nDo you want to save?")
         if is_ok:
-            with open("data.json", "r") as data_file:
-                # Reading old data
-                data = json.load(fp=data_file)
-                # Updating old data with new data
-                data.update(new_data)
-
-            with open("data.json", "w") as data_file:
-                # Saving updating data
-                json.dump(obj=data, fp=data_file, indent=4)
+            try:
+                with open("data.json", "r") as data_file:
+                    # Reading old data
+                    data = json.load(fp=data_file)
+                    # Updating old data with new data
+                    data.update(new_data)
+            except FileNotFoundError:
+                with open("data.json", "w") as data_file:
+                    json.dump(obj=new_data, fp=data_file, indent=4)
+                with open("data.json", "r") as data_file:
+                    data = json.load(fp=data_file)
+            finally:
+                with open("data.json", "w+") as data_file:
+                    # Saving updating data
+                    json.dump(obj=data, fp=data_file, indent=4)
 
                 website_entry.delete(0, END)
                 password_entry.delete(0, END)
