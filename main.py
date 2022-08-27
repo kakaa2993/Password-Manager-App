@@ -63,15 +63,15 @@ def save_data():
                     # Updating old data with new data
                     data.update(new_data)
             except FileNotFoundError:
+                # Create the file
                 with open("data.json", "w") as data_file:
                     json.dump(obj=new_data, fp=data_file, indent=4)
-                with open("data.json", "r") as data_file:
-                    data = json.load(fp=data_file)
-            finally:
-                with open("data.json", "w+") as data_file:
+            else:
+                with open("data.json", "w") as data_file:
                     # Saving updating data
                     json.dump(obj=data, fp=data_file, indent=4)
 
+            finally:
                 website_entry.delete(0, END)
                 password_entry.delete(0, END)
 
