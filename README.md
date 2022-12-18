@@ -5,7 +5,7 @@
 </p>
 
 ## About The App:
-A GUI application build using the Tkinter python library.
+A GUI application build using the <a href='https://docs.python.org/3/library/tkinter.html'>Tkinter Python Library</a>.
 
 ## How To Use The App:
 You can write your account and the password and the username or Email to any website and save this data to a file called
