@@ -5,7 +5,7 @@
 </p>
 
 ## About The App:
-A GUI application build using the <a href='https://docs.python.org/3/library/tkinter.html'>Tkinter Python Library</a>.
+A GUI application build using the <a href='https://docs.python.org/3/library/tkinter.html'>Tkinter Python Library</a>,it can save your password offline and by site, also you can search for your password by site.
 
 ## How To Use The App:
 You can write your account and the password and the username or Email to any website and save this data to a file called
